@@ -36,7 +36,7 @@ def plunge_bench_error_2_5_1(powernum, powerdenom):
             else:
                 bench_error*=1+min(abs(new_roll-.07)/.07, (abs(new_roll-.13))/.13)
         elif i == 10:
-            if .02 < new_roll < .5:
+            if .02 < new_roll < .05:
                 bench_error *= 1
             else:
                 bench_error*=1+min(abs(new_roll-.05)/.05, (abs(new_roll-.02))/.02)
