@@ -1,11 +1,11 @@
 def dodge_roll(numer, add, excess, subtract, powernum, powerdenom):
     if excess-subtract < 0:
-        return numer/(add+((-(excess-subtract))**powernum)**(1/powerdenom))
+        return numer/(add+-((-(excess-subtract))**powernum)**(1/powerdenom))
     else:
         return numer/(add+((excess-subtract)**powernum)**(1/powerdenom))
 
-def plunge_bench_error_2_5_1(numer, add, powernum, powerdenom):
-    subtract = 1
+def plunge_bench_error_2_5_1(numer, add, subtract, powernum, powerdenom):
+
     old_roll = 0
     new_roll = dodge_roll(numer, add, 6, subtract, powernum, powerdenom)
     current_plunge = 1
@@ -16,6 +16,10 @@ def plunge_bench_error_2_5_1(numer, add, powernum, powerdenom):
         new_roll = dodge_roll(numer, add, i, subtract, powernum, powerdenom)
         if abs(new_roll/old_roll) > current_plunge:
             current_plunge = abs(new_roll/old_roll)
+        if i == 0:
+            print(bench_error)
+            bench_error *= max(new_roll/.5, .5/new_roll)
+            print(bench_error)
 
     for i in range(1,11):
         old_roll = new_roll
@@ -52,13 +56,14 @@ def plunge_bench_error_2_5_1(numer, add, powernum, powerdenom):
 
 best_list = [100,0,0]
 for numeradd_i in range (1,10):
-    for i in range(1, 11):
-        for j in range (1, 11):
-            bench, err2_3, plunge = plunge_bench_error_2_5_1(numeradd_i, numeradd_i*2+1, i*2+1, j*2+1)
-            err =  (bench*err2_3)**(1/3)*plunge
-            #print(err)
-            if err < best_list[0]:
-                best_list[0] = err
-                best_list[1] = i
-                best_list[2] = j
-                print(f"Best so far: {best_list}, bench {bench}, 2/3 bench {err2_3}, plunge {plunge}, numeradd {numeradd_i}")
+    for sub in range(1,10):
+        for i in range(1, 11):
+            for j in range (1, 11):
+                bench, err2_3, plunge = plunge_bench_error_2_5_1(numeradd_i, numeradd_i*2+sub, sub, i*2+1, j*2+1)
+                err =  (bench*err2_3)**(1/3)*plunge
+                #print(err)
+                if err < best_list[0]:
+                    best_list[0] = err
+                    best_list[1] = i
+                    best_list[2] = j
+                    print(f"Best so far: {best_list}, bench {bench}, 2/3 bench {err2_3}, plunge {plunge}, numeradd {numeradd_i}, sub {sub}")
